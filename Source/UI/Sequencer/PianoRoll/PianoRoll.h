@@ -188,7 +188,7 @@ public:
     
 private:
 
-    WeakReference<MidiTrack> activeTrack = nullptr;
+    WeakReference<MidiTrack> activeTrack;// = nullptr;
     Clip activeClip;
 
     void updateActiveRangeIndicator() const;

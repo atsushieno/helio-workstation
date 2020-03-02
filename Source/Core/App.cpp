@@ -86,10 +86,12 @@ public:
         this->createLayoutComponent();
         this->setVisible(true);
 
+#if !JUCE_EMSCRIPTEN
         if (enableOpenGl)
         {
             this->attachOpenGLContext();
         }
+#endif
 
 #if JUCE_IOS
         Desktop::getInstance().setKioskModeComponent(this);
@@ -145,6 +147,7 @@ private:
         JUCEApplication::getInstance()->systemRequestedQuit();
     }
 
+#if !JUCE_EMSCRIPTEN
     void attachOpenGLContext()
     {
         DBG("Attaching OpenGL context.");
@@ -153,15 +156,18 @@ private:
         this->openGLContext->setMultisamplingEnabled(false);
         this->openGLContext->attachTo(*this);
     }
+#endif
 
     void detachOpenGLContextIfAny()
     {
+#if !JUCE_EMSCRIPTEN
         if (this->openGLContext != nullptr)
         {
             DBG("Detaching OpenGL context.");
             this->openGLContext->detach();
             this->openGLContext = nullptr;
         }
+#endif
     }
 
     void dismissLayoutComponent()
@@ -190,7 +196,9 @@ private:
     WeakReference<Component> header;
 
     UniquePointer<MainLayout> layout;
+#if !JUCE_EMSCRIPTEN
     UniquePointer<OpenGLContext> openGLContext;
+#endif
     
     friend class App;
 
@@ -457,7 +465,11 @@ void App::dismissAllModalComponents()
 
 bool App::isOpenGLRendererEnabled() noexcept
 {
+#if JUCE_EMSCRIPTEN
+    return false;
+#else
     return static_cast<App *>(getInstance())->window->openGLContext != nullptr;
+#endif
 }
 
 bool App::isUsingNativeTitleBar() noexcept
@@ -751,6 +763,7 @@ void App::onOpenGlRendererFlagChanged(bool shouldBeEnabled)
 
     auto *window = static_cast<App *>(getInstance())->window.get();
 
+#if !JUCE_EMSCRIPTEN
     if (shouldBeEnabled)
     {
         window->attachOpenGLContext();
@@ -759,6 +772,7 @@ void App::onOpenGlRendererFlagChanged(bool shouldBeEnabled)
     {
         window->detachOpenGLContextIfAny();
     }
+#endif
 }
 
 void App::onNativeTitleBarFlagChanged(bool shouldUseNativeTitleBar)

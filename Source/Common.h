@@ -109,7 +109,7 @@ inline float roundf(float x)
 }
 #endif
 
-#if JUCE_ANDROID || JUCE_IOS
+#if JUCE_ANDROID || JUCE_IOS || JUCE_EMSCRIPTEN // wasm is not mobile but it is rather for non-desktop-ness
 #   define HELIO_MOBILE 1
 #else
 #   define HELIO_DESKTOP 1

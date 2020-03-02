@@ -176,10 +176,6 @@
  //#define JUCE_INCLUDE_ZLIB_CODE 1
 #endif
 
-#ifndef    JUCE_USE_CURL
- #define   JUCE_USE_CURL 1
-#endif
-
 #ifndef    JUCE_LOAD_CURL_SYMBOLS_LAZILY
  //#define JUCE_LOAD_CURL_SYMBOLS_LAZILY 0
 #endif

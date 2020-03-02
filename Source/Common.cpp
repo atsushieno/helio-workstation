@@ -17,3 +17,6 @@
 
 // This file is here only for the purpose of creating a precompiled header:
 #include "Common.h"
+
+// FIXME: nasty workaround
+void juce::Desktop::allowedOrientationsChanged() {}
